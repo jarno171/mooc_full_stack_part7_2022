@@ -11,7 +11,7 @@ const Menu = () => {
   return (
     <div>
       <Link style={padding} to="/">anecdotes</Link>
-      <Link style={padding} to="/new">create new</Link>
+      <Link style={padding} to="/create">create new</Link>
       <Link style={padding} to="/about">about</Link>
     </div>
   )
@@ -134,7 +134,7 @@ const App = () => {
           <Menu />
           <Routes>
             <Route path="/about" element={<About />} />
-            <Route path="/new" element={ <CreateNew addNew={addNew} />} />
+            <Route path="/create" element={ <CreateNew addNew={addNew} />} />
             <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
           </Routes>
       </Router>
