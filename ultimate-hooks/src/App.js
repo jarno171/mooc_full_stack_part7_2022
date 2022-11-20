@@ -17,24 +17,34 @@ const useField = (type) => {
 
 const useResource = (baseUrl) => {
   const [resources, setResources] = useState([])
-
-  const getAll = async () => {
-    const response = await axios.get(baseUrl)
-    return response.data
-  }
+  const [updated, setUpdated] = useState(false)
 
   const create = async (resource) => {
-  
-    const response = await axios.post(baseUrl, newObject, config)
+    const response = await axios.post(baseUrl, resource)
+    /* This changes the updated-state, but it's a little weird, because updated can be false even when updated */
+    setUpdated(!updated)
     return response.data
   }
 
+  useEffect(() => {
+    const getAll = async () => {
+      const response = await axios.get(baseUrl)
+      setResources(response.data)
+    }
+
+    if (baseUrl) {
+      getAll();
+    }
+
+  }, [baseUrl, updated])
+
   const service = {
-    create
+    create,
   }
 
   return [
-    resources, service
+    resources,
+    service
   ]
 }
 
