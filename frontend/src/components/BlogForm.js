@@ -1,13 +1,9 @@
 import { useState } from 'react'
 
-const BlogForm = ({
-  handleAddNewBlog,
-  handleCancelAddNewBlog
-}) => {
+const BlogForm = ({ handleAddNewBlog, handleCancelAddNewBlog }) => {
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
-
 
   const addBlog = async (event) => {
     event.preventDefault()
@@ -59,8 +55,12 @@ const BlogForm = ({
           name="url"
         />
       </div>
-      <button type="submit" id="add-button">add</button>
-      <button type="reset" id="cancel-button" onClick={cancelAdd}>cancel</button>
+      <button type="submit" id="add-button">
+        add
+      </button>
+      <button type="reset" id="cancel-button" onClick={cancelAdd}>
+        cancel
+      </button>
     </form>
   )
 }

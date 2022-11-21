@@ -5,13 +5,12 @@ import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 
 describe('<Blog />', () => {
-
   test('renders content', () => {
     const blog = {
       title: 'testiblogi',
       author: 'testaaja',
       url: 'www.testi.com',
-      likes: 30
+      likes: 30,
     }
 
     render(<Blog blog={blog} />)
@@ -31,7 +30,7 @@ describe('<Blog />', () => {
       title: 'testiblogi',
       author: 'testaaja',
       url: 'www.testi.com',
-      likes: 30
+      likes: 30,
     }
 
     render(<Blog blog={blog} />)
@@ -52,7 +51,7 @@ describe('<Blog />', () => {
       title: 'testiblogi',
       author: 'testaaja',
       url: 'www.testi.com',
-      likes: 30
+      likes: 30,
     }
 
     const mockHandler = jest.fn()

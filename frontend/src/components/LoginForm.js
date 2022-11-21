@@ -6,13 +6,13 @@ const LoginForm = ({
   handlePasswordChange,
   errorMessage,
   username,
-  password
+  password,
 }) => {
   return (
     <div>
       <h2>Login</h2>
 
-      < ErrorBar message={errorMessage} />
+      <ErrorBar message={errorMessage} />
 
       <form onSubmit={handleSubmit}>
         <div>
@@ -36,7 +36,6 @@ const LoginForm = ({
         </div>
         <button type="submit">login</button>
       </form>
-
     </div>
   )
 }

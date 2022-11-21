@@ -19,9 +19,7 @@ const App = () => {
   const blogRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( sortBlogsInPlace(blogs) )
-    )
+    blogService.getAll().then((blogs) => setBlogs(sortBlogsInPlace(blogs)))
   }, [])
 
   useEffect(() => {
@@ -36,11 +34,7 @@ const App = () => {
 
   const sortBlogsInPlace = (blogsToSort) => {
     blogsToSort.sort((a, b) => {
-      return a.likes > b.likes
-        ? -1
-        : a.likes < b.likes
-          ? 1
-          : 0
+      return a.likes > b.likes ? -1 : a.likes < b.likes ? 1 : 0
     })
 
     return blogsToSort
@@ -67,20 +61,18 @@ const App = () => {
 
     try {
       const user = await loginService.login({
-        username, password,
+        username,
+        password,
       })
 
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      )
+      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
 
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
-
     } catch (exception) {
-      showMessage(setErrorMessage, ('Wrong credentials'))
+      showMessage(setErrorMessage, 'Wrong credentials')
     }
   }
 
@@ -90,29 +82,31 @@ const App = () => {
   }
 
   const handleAddNewBlog = async (title, author, url) => {
-
     const newBlog = {
       title: title,
       author: author,
-      url: url
+      url: url,
     }
 
     const newReturnedBlog = await blogService.create(newBlog, user)
 
     setBlogs(blogs.concat(newReturnedBlog))
 
-    showMessage(setUpdateMessage, ('Added new blog'))
+    showMessage(setUpdateMessage, 'Added new blog')
 
     /* Reset form manually, in previous exercises all the inputs in the form were controlled by state */
     setBlogFormVisible(false)
   }
 
   const handleAddLike = async () => {
-    const updatedBlog = { ...blogRef.current.blog, likes: blogRef.current.likes + 1 }
+    const updatedBlog = {
+      ...blogRef.current.blog,
+      likes: blogRef.current.likes + 1,
+    }
 
     await blogService.update(updatedBlog)
 
-    const findBlog = blogs.find(blog => blog.id === updatedBlog.id)
+    const findBlog = blogs.find((blog) => blog.id === updatedBlog.id)
     findBlog.likes += 1
 
     blogRef.current.setLikes(blogRef.current.likes + 1)
@@ -123,29 +117,33 @@ const App = () => {
     if (window.confirm(`Remove ${blogRef.current.blog.title}?`)) {
       await blogService.remove(blogRef.current.blog)
 
-      setBlogs(blogs.filter(blog => blog.id !== blogRef.current.blog.id))
+      setBlogs(blogs.filter((blog) => blog.id !== blogRef.current.blog.id))
     }
   }
 
   const blogList = () => {
-
     return (
       <div>
         <h2>blogs</h2>
-        <p>{user.name} logged in
-          <button onClick={handleLogout} >logout</button>
+        <p>
+          {user.name} logged in
+          <button onClick={handleLogout}>logout</button>
         </p>
 
-        {blogs
-          .map(blog =>
-            <Blog key={blog.id} blog={blog} handleAddLike={handleAddLike} handleDeleteBlog={handleDeleteBlog} ref={blogRef} />
-          )}
+        {blogs.map((blog) => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            handleAddLike={handleAddLike}
+            handleDeleteBlog={handleDeleteBlog}
+            ref={blogRef}
+          />
+        ))}
       </div>
     )
   }
 
   const loginForm = () => {
-
     return (
       <LoginForm
         username={username}
@@ -162,17 +160,18 @@ const App = () => {
     const hideWhenVisible = { display: blogFormVisible ? 'none' : '' }
     const showWhenVisible = { display: blogFormVisible ? '' : 'none' }
 
-
     return (
       <div>
-        < Notification message={updateMessage} />
+        <Notification message={updateMessage} />
 
         <div style={hideWhenVisible}>
-          <button onClick={() => setBlogFormVisible(true)}>add a new blog</button>
+          <button onClick={() => setBlogFormVisible(true)}>
+            add a new blog
+          </button>
         </div>
 
         <div style={showWhenVisible}>
-          < BlogForm
+          <BlogForm
             handleAddNewBlog={handleAddNewBlog}
             handleCancelAddNewBlog={() => setBlogFormVisible(false)}
           />
@@ -190,15 +189,7 @@ const App = () => {
     )
   }
 
-  return (
-    <div>
-      {
-        user === null ?
-          loginForm() :
-          loggedUserView()
-      }
-    </div>
-  )
+  return <div>{user === null ? loginForm() : loggedUserView()}</div>
 }
 
 export default App

@@ -1,5 +1,4 @@
 const ErrorBar = ({ message }) => {
-
   const error = {
     color: 'red',
     background: 'lightgrey',
@@ -7,18 +6,14 @@ const ErrorBar = ({ message }) => {
     borderStyle: 'solid',
     borderRadius: 5,
     padding: 10,
-    marginBottom: 10
+    marginBottom: 10,
   }
 
   if (!message) {
     return null
   }
 
-  return (
-    <div style={error}>
-      {message}
-    </div>
-  )
+  return <div style={error}>{message}</div>
 }
 
 export default ErrorBar
