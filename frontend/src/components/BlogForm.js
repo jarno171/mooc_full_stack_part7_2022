@@ -79,7 +79,11 @@ const BlogForm = (props) => {
 
 const mapStateToProps = (state) => {
   return {
+    blogs: state.blogs,
     user: state.user,
+    visibility: state.visibility,
+    notification: state.notification,
+    error: state.error,
   }
 }
 

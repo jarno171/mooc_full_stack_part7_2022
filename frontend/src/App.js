@@ -1,7 +1,6 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
-import loginService from './services/login'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
@@ -11,9 +10,6 @@ import { setVisibility } from './reducers/visibilityReducer'
 import { setUser } from './reducers/userReducer'
 
 const App = ({ setUser, ...props }) => {
-  const [errorMessage, setErrorMessage] = useState('')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
 
   const dispatch = useDispatch()
   const blogRef = useRef()
@@ -33,35 +29,6 @@ const App = ({ setUser, ...props }) => {
       setUser(user)
     }
   }, [setUser])
-
-  const showMessage = (setStateFunction, message) => {
-    const timeout = 5000
-
-    setStateFunction(message)
-    setTimeout(() => {
-      setStateFunction('')
-    }, timeout)
-  }
-
-  const handleLogin = async (event) => {
-    event.preventDefault()
-
-    try {
-      const user = await loginService.login({
-        username,
-        password,
-      })
-
-      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
-
-      blogService.setToken(user.token)
-      setUser(user)
-      setUsername('')
-      setPassword('')
-    } catch (exception) {
-      showMessage(setErrorMessage, 'Wrong credentials')
-    }
-  }
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
@@ -135,14 +102,7 @@ const App = ({ setUser, ...props }) => {
 
   const loginForm = () => {
     return (
-      <LoginForm
-        username={username}
-        password={password}
-        handleUsernameChange={({ target }) => setUsername(target.value)}
-        handlePasswordChange={({ target }) => setPassword(target.value)}
-        errorMessage={errorMessage}
-        handleSubmit={handleLogin}
-      />
+      <LoginForm />
     )
   }
 
@@ -164,6 +124,7 @@ const mapStateToProps = (state) => {
     user: state.user,
     visibility: state.visibility,
     notification: state.notification,
+    error: state.error,
   }
 }
 
