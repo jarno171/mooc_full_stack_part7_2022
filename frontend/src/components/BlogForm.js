@@ -1,6 +1,10 @@
 import { useState } from 'react'
+import { setVisibility } from '../reducers/visibilityReducer'
+import { createBlog } from '../reducers/blogReducer'
+import { connect, } from 'react-redux'
+import { createNotification } from '../reducers/notificationReducer'
 
-const BlogForm = ({ handleAddNewBlog, handleCancelAddNewBlog }) => {
+const BlogForm = (props) => {
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
@@ -8,7 +12,15 @@ const BlogForm = ({ handleAddNewBlog, handleCancelAddNewBlog }) => {
   const addBlog = async (event) => {
     event.preventDefault()
 
-    await handleAddNewBlog(newTitle, newAuthor, newUrl)
+    props.createBlog({
+      title: newTitle,
+      author: newAuthor,
+      url: newUrl,
+      user: props.user,
+    })
+
+    props.createNotification('added new blog')
+    props.setVisibility(false)
 
     setNewTitle('')
     setNewAuthor('')
@@ -20,7 +32,7 @@ const BlogForm = ({ handleAddNewBlog, handleCancelAddNewBlog }) => {
     setNewAuthor('')
     setNewUrl('')
 
-    handleCancelAddNewBlog()
+    props.setVisibility(false)
   }
 
   return (
@@ -65,4 +77,18 @@ const BlogForm = ({ handleAddNewBlog, handleCancelAddNewBlog }) => {
   )
 }
 
-export default BlogForm
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  }
+}
+
+const mapDispatchToProps = {
+  createBlog,
+  setVisibility,
+  createNotification,
+}
+
+
+const ConnectedBlogForm = connect(mapStateToProps, mapDispatchToProps)(BlogForm)
+export default ConnectedBlogForm

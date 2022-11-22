@@ -1,4 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
+import blogService from '../services/blogs'
+
+const sortBlogsInPlace = (blogsToSort) => {
+  blogsToSort.sort((a, b) => {
+    return a.likes > b.likes ? -1 : a.likes < b.likes ? 1 : 0
+  })
+
+  return blogsToSort
+}
 
 const blogSlice = createSlice({
   name: 'blogs',
@@ -16,6 +25,28 @@ const blogSlice = createSlice({
     },
   },
 })
+
+export const initializeBlogs = () => {
+  return async dispatch => {
+    const blogs = await blogService.getAll()
+    dispatch(setBlogs(sortBlogsInPlace(blogs)))
+  }
+}
+
+export const createBlog = content => {
+  return async dispatch => {
+    const newBlog = {
+      title: content.title,
+      author: content.author,
+      url: content.url,
+    }
+
+    const newReturnedBlog = await blogService.create(newBlog, content.user)
+
+    dispatch(addBlog(newReturnedBlog))
+  }
+}
+
 
 export const { incrementLike, addBlog, setBlogs } = blogSlice.actions
 export default blogSlice.reducer
