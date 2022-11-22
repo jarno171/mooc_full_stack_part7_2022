@@ -5,7 +5,7 @@ import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import { connect, useDispatch } from 'react-redux'
-import { initializeBlogs, addBlog } from './reducers/blogReducer'
+import { initializeBlogs, addBlog, setBlogs } from './reducers/blogReducer'
 import { setVisibility } from './reducers/visibilityReducer'
 import { setUser } from './reducers/userReducer'
 
@@ -53,7 +53,7 @@ const App = ({ setUser, ...props }) => {
     if (window.confirm(`Remove ${blogRef.current.blog.title}?`)) {
       await blogService.remove(blogRef.current.blog)
 
-      //setBlogs(blogs.filter((blog) => blog.id !== blogRef.current.blog.id))
+      props.setBlogs(blogs.filter((blog) => blog.id !== blogRef.current.blog.id))
     }
   }
 
@@ -132,6 +132,7 @@ const mapDispatchToProps = {
   addBlog,
   setVisibility,
   setUser,
+  setBlogs,
 }
 
 const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
