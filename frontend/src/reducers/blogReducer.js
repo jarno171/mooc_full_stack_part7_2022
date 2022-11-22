@@ -23,6 +23,15 @@ const blogSlice = createSlice({
     setBlogs(state, action) {
       return action.payload
     },
+    addLike(state, action) {
+      const findBlog = state.find((blog) => blog.id === action.payload)
+      findBlog.likes += 1
+
+      return sortBlogsInPlace(state)
+    },
+    removeBlog(state, action) {
+      return state.filter((blog) => blog.id !== action.payload)
+    }
   },
 })
 
@@ -48,5 +57,5 @@ export const createBlog = content => {
 }
 
 
-export const { incrementLike, addBlog, setBlogs } = blogSlice.actions
+export const { incrementLike, addBlog, setBlogs, addLike, removeBlog } = blogSlice.actions
 export default blogSlice.reducer

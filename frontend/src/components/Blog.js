@@ -1,7 +1,31 @@
-import { useState, forwardRef, useImperativeHandle } from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
+import blogService from '../services/blogs'
+import store from '../store'
+import { addLike, removeBlog } from '../reducers/blogReducer'
 
-const Blog = forwardRef(({ blog, handleAddLike, handleDeleteBlog }, refs) => {
+const handleAddLike = async (blog, setLikes) => {
+  const updatedBlog = {
+    ...blog,
+    likes: blog.likes + 1,
+  }
+
+  await blogService.update(updatedBlog)
+
+  setLikes(blog.likes + 1)
+
+  store.dispatch(addLike(updatedBlog.id))
+}
+
+const handleDeleteBlog = async (blog) => {
+  if (window.confirm(`Remove ${blog.title}?`)) {
+    await blogService.remove(blog)
+
+    store.dispatch(removeBlog(blog.id))
+  }
+}
+
+const Blog = ({ blog }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -20,14 +44,6 @@ const Blog = forwardRef(({ blog, handleAddLike, handleDeleteBlog }, refs) => {
     setVisible(!visible)
   }
 
-  useImperativeHandle(refs, () => {
-    return {
-      blog: blog,
-      likes: likes,
-      setLikes: setLikes,
-    }
-  })
-
   return (
     <>
       <div className="blog" style={blogStyle}>
@@ -45,7 +61,7 @@ const Blog = forwardRef(({ blog, handleAddLike, handleDeleteBlog }, refs) => {
           <p>{blog.url}</p>
           <p>
             likes {likes}{' '}
-            <button id="like-button" onClick={handleAddLike}>
+            <button id="like-button" onClick={() => handleAddLike(blog, setLikes)}>
               like
             </button>
           </p>
@@ -53,7 +69,7 @@ const Blog = forwardRef(({ blog, handleAddLike, handleDeleteBlog }, refs) => {
           <button
             id="delete-button"
             style={showWhenVisible}
-            onClick={handleDeleteBlog}
+            onClick={() => handleDeleteBlog(blog)}
           >
             delete
           </button>
@@ -61,7 +77,7 @@ const Blog = forwardRef(({ blog, handleAddLike, handleDeleteBlog }, refs) => {
       </div>
     </>
   )
-})
+}
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,

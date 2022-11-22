@@ -1,18 +1,17 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import { connect, useDispatch } from 'react-redux'
-import { initializeBlogs, addBlog, setBlogs } from './reducers/blogReducer'
+import { initializeBlogs, addBlog, setBlogs, addLike } from './reducers/blogReducer'
 import { setVisibility } from './reducers/visibilityReducer'
 import { setUser } from './reducers/userReducer'
 
 const App = ({ setUser, ...props }) => {
 
   const dispatch = useDispatch()
-  const blogRef = useRef()
 
   const blogs = props.blogs
 
@@ -35,28 +34,6 @@ const App = ({ setUser, ...props }) => {
     setUser(null)
   }
 
-  const handleAddLike = async () => {
-    const updatedBlog = {
-      ...blogRef.current.blog,
-      likes: blogRef.current.likes + 1,
-    }
-
-    await blogService.update(updatedBlog)
-
-    const findBlog = blogs.find((blog) => blog.id === updatedBlog.id)
-    findBlog.likes += 1
-
-    blogRef.current.setLikes(blogRef.current.likes + 1)
-  }
-
-  const handleDeleteBlog = async () => {
-    if (window.confirm(`Remove ${blogRef.current.blog.title}?`)) {
-      await blogService.remove(blogRef.current.blog)
-
-      props.setBlogs(blogs.filter((blog) => blog.id !== blogRef.current.blog.id))
-    }
-  }
-
   const blogList = () => {
     return (
       <div>
@@ -70,9 +47,6 @@ const App = ({ setUser, ...props }) => {
           <Blog
             key={blog.id}
             blog={blog}
-            handleAddLike={handleAddLike}
-            handleDeleteBlog={handleDeleteBlog}
-            ref={blogRef}
           />
         ))}
       </div>
@@ -133,6 +107,7 @@ const mapDispatchToProps = {
   setVisibility,
   setUser,
   setBlogs,
+  addLike,
 }
 
 const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
