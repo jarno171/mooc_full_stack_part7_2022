@@ -1,11 +1,12 @@
 import { connect, } from 'react-redux'
+import { Link } from "react-router-dom"
 
 const _ = require('lodash')
 
 const UserPrint = (props) => {
   return (
     <>
-      <td>{props.name}</td><td>{props.count}</td>
+      <td><Link to={`/users/${props.id}`}> {props.name}</Link></td><td>{props.count}</td>
     </>
   )
 }
@@ -26,6 +27,7 @@ const Users = (props) => {
               <tr key={user.name}>
                 <UserPrint name={user.name}
                            count={userCount[user.name]}
+                           id={user.id}
                 />
               </tr>
             ))}

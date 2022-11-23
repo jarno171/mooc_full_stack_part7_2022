@@ -1,5 +1,6 @@
 import BlogList from './BlogList'
 import AddNewBlog from './AddNewBlog'
+import UserView from './UserView'
 
 import {
   BrowserRouter as Router,
@@ -23,6 +24,7 @@ const LoggedUserView = () => {
             </>
             } />
           <Route path="/users" element={<Users />} />
+          <Route path="/users/:id" element={<UserView />} />
         </Routes>
       </Router>
       
