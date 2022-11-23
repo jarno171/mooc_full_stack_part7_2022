@@ -5,7 +5,7 @@ const _ = require('lodash')
 const UserPrint = (props) => {
   return (
     <>
-      {props.name} {props.count}
+      <td>{props.name}</td><td>{props.count}</td>
     </>
   )
 }
@@ -18,12 +18,19 @@ const Users = (props) => {
     <div>
       <h3>Users</h3>
 
-      {usersUnique.map((user) => (
-        <UserPrint name={user.name}
-                   count={userCount[user.name]}
-                   key={user.name}
-        />
-      ))}
+      <table>
+        <tbody>
+          <tr><th></th><th>Blogs created</th></tr>
+
+            {usersUnique.map((user) => (
+              <tr key={user.name}>
+                <UserPrint name={user.name}
+                           count={userCount[user.name]}
+                />
+              </tr>
+            ))}
+        </tbody>
+      </table>
     </div>
   )
 }
