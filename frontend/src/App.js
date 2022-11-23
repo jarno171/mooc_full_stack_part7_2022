@@ -5,15 +5,11 @@ import { connect, useDispatch } from 'react-redux'
 import { initializeBlogs, addBlog, setBlogs, addLike } from './reducers/blogReducer'
 import { setVisibility } from './reducers/visibilityReducer'
 import { setUser } from './reducers/userReducer'
-import NavigationBar from './components/NavigationBar'
-import AddNewBlog from './components/AddNewBlog'
-import BlogList from './components/BlogList'
+import LoggedUserView from './components/LoggedUserView'
 
 const App = ({ setUser, ...props }) => {
 
   const dispatch = useDispatch()
-
-  const blogs = props.blogs
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -29,22 +25,11 @@ const App = ({ setUser, ...props }) => {
     }
   }, [setUser])
 
-  const loggedUserView = () => {
-    return (
-      <div>
-        <NavigationBar />
-        <BlogList />
-        <AddNewBlog />
-      </div>
-    )
-  }
-
-  return <div>{props.user === null ? <LoginForm /> : loggedUserView()}</div>
+  return <div>{props.user === null ? <LoginForm /> : <LoggedUserView />}</div>
 }
 
 const mapStateToProps = (state) => {
   return {
-    blogs: state.blogs,
     user: state.user,
     visibility: state.visibility,
     notification: state.notification,
