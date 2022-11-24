@@ -1,10 +1,11 @@
 import BlogList from './BlogList'
 import AddNewBlog from './AddNewBlog'
 import UserView from './UserView'
+import BlogView from './BlogView'
 
 import {
   BrowserRouter as Router,
-  Routes, Route, Link
+  Routes, Route
 } from "react-router-dom"
 
 import LogoutBar from './LogoutBar'
@@ -25,6 +26,7 @@ const LoggedUserView = () => {
             } />
           <Route path="/users" element={<Users />} />
           <Route path="/users/:id" element={<UserView />} />
+          <Route path="/blogs/:id" element={<BlogView />} />
         </Routes>
       </Router>
       
