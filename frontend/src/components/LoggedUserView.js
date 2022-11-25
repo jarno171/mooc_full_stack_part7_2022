@@ -8,15 +8,16 @@ import {
   Routes, Route
 } from "react-router-dom"
 
-import LogoutBar from './LogoutBar'
+import NavigationBar from './NavigationBar'
 import Users from './Users'
 
 const LoggedUserView = () => {
   return (
     <div>
-      <LogoutBar />
 
       <Router>
+        <NavigationBar />
+
         <Routes>
           <Route path="/" element={
             <>

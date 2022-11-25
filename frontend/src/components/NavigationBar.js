@@ -1,5 +1,6 @@
-import { setUser } from '../reducers/userReducer'
+import { setUser, } from '../reducers/userReducer'
 import { connect, } from 'react-redux'
+import { Link, } from "react-router-dom"
 
 const handleLogout = (setUser) => {
   window.localStorage.removeItem('loggedBlogappUser')
@@ -7,12 +8,20 @@ const handleLogout = (setUser) => {
 }
 
 const LogoutBar = (props) => {
+
+  const padding = {
+    padding: 5
+  }
+
   return (
     <>
       <h2>blogs</h2>
       <p>
+        <Link style={padding} to="/">blogs</Link>
+        <Link style={padding} to="/users">users</Link>
+
         {props.user.name} logged in
-        <button onClick={() => handleLogout(props.setUser)}>logout</button>
+        <button style={padding} onClick={() => handleLogout(props.setUser)}>logout</button>
       </p>
     </>
   )
