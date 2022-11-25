@@ -6,6 +6,7 @@ import notificationReducer from './reducers/notificationReducer'
 import errorReducer from './reducers/errorReducer'
 import usernameReducer from './reducers/usernameReducer'
 import passwordReducer from './reducers/passwordReducer'
+import commentReducer from './reducers/commentReducer'
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     visibility: visibilityReducer,
     notification: notificationReducer,
     error: errorReducer,
+    comment: commentReducer,
   },
 })
 

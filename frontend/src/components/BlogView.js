@@ -3,7 +3,7 @@ import { connect, } from 'react-redux'
 import blogService from '../services/blogs'
 import store from '../store'
 import { addLike } from '../reducers/blogReducer'
-import { Link } from "react-router-dom"
+import { setComment, resetComment } from "../reducers/commentReducer"
 
 const handleAddLike = async (blog) => {
   const updatedBlog = {
@@ -16,6 +16,16 @@ const handleAddLike = async (blog) => {
   store.dispatch(addLike(updatedBlog.id))
 }
 
+const handleAddComment = async (event, blog) => {
+  event.preventDefault()
+
+  const comment = event.target.comment.value
+
+  blogService.addComment(blog.id, comment)
+
+  store.dispatch(resetComment())
+}
+
 const BlogView = (props) => {
   const id = useParams().id
 
@@ -24,6 +34,7 @@ const BlogView = (props) => {
   if (blog) {
     const url = (blog.url.indexOf('://') === -1) ? 'https://' + blog.url : blog.url
     return (
+      <>
       <div>
         <h2>
           {blog.title}
@@ -44,6 +55,25 @@ const BlogView = (props) => {
           added by {blog.author}
         </p>
       </div>
+
+      <div>
+        <div>
+          <h2>comments</h2>
+          <form onSubmit={e => handleAddComment(e, blog)}>
+            <div>
+              <input
+                type="text"
+                value={props.comment}
+                name="comment"
+                onChange={({ target }) => props.setComment(target.value)}
+              />
+            </div>
+
+            <button type="submit">add comment</button>
+          </form>
+        </div>
+      </div>
+      </>
     )
   }
 }
@@ -51,8 +81,14 @@ const BlogView = (props) => {
 const mapStateToProps = (state) => {
   return {
     blogs: state.blogs,    
+    comment: state.comment,
   }
 }
 
-const ConnectedBlogView = connect(mapStateToProps)(BlogView)
+const mapDispatchToProps = {
+  setComment,
+  resetComment,
+}
+
+const ConnectedBlogView = connect(mapStateToProps, mapDispatchToProps)(BlogView)
 export default ConnectedBlogView
