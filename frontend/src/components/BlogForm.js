@@ -3,6 +3,7 @@ import { setVisibility } from '../reducers/visibilityReducer'
 import { createBlog } from '../reducers/blogReducer'
 import { connect, } from 'react-redux'
 import { createNotification } from '../reducers/notificationReducer'
+import { Form, Button, } from 'react-bootstrap'
 
 const BlogForm = (props) => {
   const [newTitle, setNewTitle] = useState('')
@@ -36,44 +37,43 @@ const BlogForm = (props) => {
   }
 
   return (
-    <form onSubmit={addBlog}>
-      <div>
-        title:
-        <input
+    <Form onSubmit={addBlog}>
+      <Form.Group>
+        <Form.Label>title:</Form.Label>
+        <Form.Control
           type="text"
           id="title"
           value={newTitle}
           onChange={(event) => setNewTitle(event.target.value)}
           name="title"
         />
-      </div>
-      <div>
-        author:
-        <input
+
+        <Form.Label>author:</Form.Label>
+        <Form.Control
           type="text"
           id="author"
           value={newAuthor}
           onChange={(event) => setNewAuthor(event.target.value)}
           name="author"
         />
-      </div>
-      <div>
-        url:
-        <input
+
+        <Form.Label>url:</Form.Label>
+        <Form.Control
           type="text"
           id="url"
           value={newUrl}
           onChange={(event) => setNewUrl(event.target.value)}
           name="url"
         />
-      </div>
-      <button type="submit" id="add-button">
-        add
-      </button>
-      <button type="reset" id="cancel-button" onClick={cancelAdd}>
-        cancel
-      </button>
-    </form>
+
+        <Button type="submit" id="add-button">
+          add
+        </Button>
+        <Button type="reset" id="cancel-button" onClick={cancelAdd}>
+          cancel
+        </Button>
+      </Form.Group>
+    </Form>
   )
 }
 
