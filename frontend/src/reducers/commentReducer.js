@@ -2,13 +2,22 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const commentSlice = createSlice({
   name: 'comment',
-  initialState: '',
+  initialState: {
+    blogId: '',
+    comment: ''
+  },
   reducers: {
     setComment(state, action) {
-      return action.payload
+      return {
+        blogId: action.payload.blogId,
+        comment: action.payload.comment,
+      }
     },
     resetComment(state, action) {
-      return ''
+      return {
+        blogId: '',
+        comment: '',
+      }
     }
   }
 })

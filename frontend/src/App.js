@@ -25,7 +25,9 @@ const App = ({ setUser, ...props }) => {
     }
   }, [setUser])
 
-  return <div>{props.user === null ? <LoginForm /> : <LoggedUserView />}</div>
+  return <div className="container">
+          {props.user === null ? <LoginForm /> : <LoggedUserView />}
+        </div>
 }
 
 const mapStateToProps = (state) => {

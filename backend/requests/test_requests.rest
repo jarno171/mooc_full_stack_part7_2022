@@ -4,14 +4,14 @@ GET http://localhost:3003/api/blogs
 GET http://localhost:3003/api/users
 
 ###
-GET http://localhost:3003/api/blogs/636f67a03c5e1ce2e0e43cc3/comments
+GET http://localhost:3003/api/blogs/6381b4751f09531d2e8dd385/comments
 
 ###
-POST http://localhost:3003/api/blogs/636f67a03c5e1ce2e0e43cc3/comments HTTP/1.1
+POST http://localhost:3003/api/blogs/6381b4751f09531d2e8dd385/comments HTTP/1.1
 content-type: application/json
 
 {
-  "comment": "niin on"
+  "comment": "niin on lolzz"
 }
 
 

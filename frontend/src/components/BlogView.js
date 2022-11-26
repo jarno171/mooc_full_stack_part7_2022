@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom"
 import { connect, } from 'react-redux'
 import blogService from '../services/blogs'
 import store from '../store'
-import { addLike } from '../reducers/blogReducer'
+import { addLike, setBlog } from '../reducers/blogReducer'
 import { setComment, resetComment } from "../reducers/commentReducer"
 
 const handleAddLike = async (blog) => {
@@ -21,8 +21,9 @@ const handleAddComment = async (event, blog) => {
 
   const comment = event.target.comment.value
 
-  blogService.addComment(blog.id, comment)
+  const updatedBlog = await blogService.addComment(blog.id, comment)
 
+  store.dispatch(setBlog(updatedBlog))
   store.dispatch(resetComment())
 }
 
@@ -59,13 +60,20 @@ const BlogView = (props) => {
       <div>
         <div>
           <h2>comments</h2>
+          {blog.comments.map((comment) => (
+            <li key={comment._id}>{comment.comment}</li>
+          ))}
+
           <form onSubmit={e => handleAddComment(e, blog)}>
             <div>
               <input
                 type="text"
-                value={props.comment}
+                value={blog.id === props.comment.blogId ? props.comment.comment : ''}
                 name="comment"
-                onChange={({ target }) => props.setComment(target.value)}
+                onChange={({ target }) => props.setComment({ 
+                  blogId: blog.id,
+                  comment: target.value
+                 })}
               />
             </div>
 

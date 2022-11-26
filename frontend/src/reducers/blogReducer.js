@@ -20,6 +20,11 @@ const blogSlice = createSlice({
     addBlog(state, action) {
       return state.concat(action.payload)
     },
+    setBlog(state, action) {
+      const filteredBlogs = state.filter(blog => blog.id !== action.payload.id)
+
+      return sortBlogsInPlace(filteredBlogs.concat(action.payload))
+    },
     setBlogs(state, action) {
       return action.payload
     },
@@ -57,5 +62,5 @@ export const createBlog = content => {
 }
 
 
-export const { incrementLike, addBlog, setBlogs, addLike, removeBlog } = blogSlice.actions
+export const { incrementLike, addBlog, setBlog, setBlogs, addLike, removeBlog } = blogSlice.actions
 export default blogSlice.reducer
