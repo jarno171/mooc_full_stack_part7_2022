@@ -1,17 +1,26 @@
 import { connect, } from 'react-redux'
-import Blog from './Blog'
+import { Link } from "react-router-dom"
+import Table from 'react-bootstrap/Table'
 
 const BlogList = (props) => {
-  return (
-    <div>
-      {props.blogs.map((blog) => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-        />
-      ))}
-    </div>
-  )
+  
+  if (props.blogs.length !== 0) {
+    return (
+      <>
+        <Table>
+          {props.blogs.map((blog) => (
+            <tbody key={blog.id}>
+              <tr>
+                <td>
+                  <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+                </td>
+              </tr>
+            </tbody>
+          ))}
+        </Table>
+      </>
+    )
+  }
 }
 
 const mapStateToProps = (state) => {

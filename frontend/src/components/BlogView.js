@@ -37,9 +37,9 @@ const BlogView = (props) => {
     return (
       <>
       <div>
-        <h2>
+        <h3>
           {blog.title}
-        </h2>
+        </h3>
 
         <p>
           <a rel={'external noreferrer'} target="_blank" href={url} >{url}</a>
@@ -59,7 +59,7 @@ const BlogView = (props) => {
 
       <div>
         <div>
-          <h2>comments</h2>
+          <h3>comments</h3>
           {blog.comments.map((comment) => (
             <li key={comment._id}>{comment.comment}</li>
           ))}

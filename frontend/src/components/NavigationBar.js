@@ -15,7 +15,7 @@ const LogoutBar = (props) => {
 
   return (
     <>
-      <h2>blogs</h2>
+      <h1>blogs</h1>
       <p>
         <Link style={padding} to="/">blogs</Link>
         <Link style={padding} to="/users">users</Link>
